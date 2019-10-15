@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: risesin-paymentservice  # 应用名称
+  cloud:
+    config:
+      discovery:
+        service-id: risesin-config-server # 配置服务名
+        enabled: true
+      name: risesin-paymentservice  # 配置文件名
+      profile: dev # 文件名后缀
+      label: master # 主干
+    bus:
+      enabled: true
+      id: ${spring.application.name}:${spring.cloud.config.profile}:${random.value}
+      trace:
+        enabled: true
+  rabbitmq:
+    addresses: 192.168.1.199:5672,192.168.1.200:5672
+    username: admin
+    password: admin
+    publisher-confirms: true
+    virtual-host: /
+    
+server:
+  port: 9010
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.1.200:5000/eureka/,http://192.168.1.198:5000/eureka/,http://192.168.1.197:5000/eureka/
+  instance:
+    prefer-ip-address: true  #访问路径可以显示IP地址
